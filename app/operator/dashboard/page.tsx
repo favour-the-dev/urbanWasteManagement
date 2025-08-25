@@ -1,5 +1,9 @@
 import OperatorDashboard from "@/components/operator-dashboard";
-
+import { RouteGuard } from "@/components/route-guard";
 export default function OperatorDashboardPage() {
-  return <OperatorDashboard />;
+  return (
+    <RouteGuard requiredRole="operator">
+      <OperatorDashboard />
+    </RouteGuard>
+  );
 }

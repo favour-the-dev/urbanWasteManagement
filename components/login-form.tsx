@@ -8,9 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Truck, Shield } from "lucide-react";
+import { User } from "@/app/context/auth-context";
+import { useAuth } from "@/app/context/auth-context";
 
 // Mock user data - in a real app, this would come from a database
-const mockUsers = [
+const mockUsers: User[] = [
   {
     email: "admin@city.gov",
     password: "admin123",
@@ -31,12 +33,18 @@ export function LoginForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   const handleDemoSelect = (role: "admin" | "operator") => {
     const user = mockUsers.find((u) => u.role === role);
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      router.push(`/${role}/dashboard`);
+      login(user);
+      // Redirect based on role
+      if (user.role === "admin") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/operator/dashboard");
+      }
     }
   };
 
@@ -54,8 +62,7 @@ export function LoginForm() {
     );
 
     if (user) {
-      // Store user data in localStorage (in a real app, use proper session management)
-      localStorage.setItem("user", JSON.stringify(user));
+      login(user);
 
       // Redirect based on role
       if (user.role === "admin") {

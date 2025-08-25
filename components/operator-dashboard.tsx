@@ -142,28 +142,6 @@ export default function OperatorDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <Truck className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-semibold">Waste Collection</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-sm">
-              <div className="font-medium">{user.name}</div>
-              <Badge variant="outline" className="text-xs">
-                Field Operator
-              </Badge>
-            </div>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="p-4 space-y-6">
         {/* Current Assignment Status */}

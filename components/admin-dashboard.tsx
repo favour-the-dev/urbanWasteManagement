@@ -131,54 +131,27 @@ export function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b bg-card">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-2">
-            <Truck className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-semibold">Urban Waste Management</h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="sm">
-              <Settings className="h-4 w-4" />
-            </Button>
-            <div className="text-sm">
-              <div className="font-medium">{user.name}</div>
-              <Badge variant="secondary" className="text-xs">
-                Administrator
-              </Badge>
-            </div>
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
       <main className="p-6">
         <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-2">Operations Command Center</h2>
-          <p className="text-muted-foreground">
+          <h2 className="text-2xl font-bold mb-2 text-center md:text-start">
+            Operations Command Center
+          </h2>
+          <p className="text-muted-foreground text-center md:text-start">
             Real-time monitoring and management of waste collection operations
           </p>
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-2 gap-5 md:grid-cols-3 place-content-center my-6 md:my-3 py-6 md:py-3">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="monitoring">Live Monitoring</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <Card className="border-gray-100">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Active Routes
@@ -200,7 +173,7 @@ export function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Field Operators
@@ -224,7 +197,7 @@ export function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Collections Today
@@ -244,33 +217,11 @@ export function AdminDashboard() {
                   />
                 </CardContent>
               </Card>
-
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Active Issues
-                  </CardTitle>
-                  <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">
-                    {mockData.issues.total}
-                  </div>
-                  <div className="flex gap-2 text-xs text-muted-foreground">
-                    <span className="text-red-600">
-                      {mockData.issues.critical} critical
-                    </span>
-                    <span className="text-yellow-600">
-                      {mockData.issues.medium} medium
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
 
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2">
-                <Card>
+                <Card className="border-gray-100">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Activity className="h-5 w-5" />
@@ -309,7 +260,7 @@ export function AdminDashboard() {
               </div>
 
               <div className="space-y-6">
-                <Card>
+                <Card className="border-gray-100">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Route className="h-5 w-5" />
@@ -339,37 +290,6 @@ export function AdminDashboard() {
                       <BarChart3 className="h-4 w-4 mr-2" />
                       Generate Report
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start bg-transparent"
-                    >
-                      <AlertTriangle className="h-4 w-4 mr-2" />
-                      View All Issues
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-sm">System Status</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Route Optimization</span>
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">GPS Tracking</span>
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Communication</span>
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm">Database</span>
-                      <XCircle className="h-4 w-4 text-yellow-600" />
-                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -378,7 +298,7 @@ export function AdminDashboard() {
 
           <TabsContent value="monitoring" className="space-y-6">
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader>
                   <CardTitle>Live Route Status</CardTitle>
                 </CardHeader>
@@ -442,7 +362,7 @@ export function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader>
                   <CardTitle>Performance Metrics</CardTitle>
                 </CardHeader>
@@ -484,7 +404,7 @@ export function AdminDashboard() {
 
           <TabsContent value="analytics" className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2">
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader>
                   <CardTitle>Weekly Performance</CardTitle>
                 </CardHeader>
@@ -499,7 +419,7 @@ export function AdminDashboard() {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-gray-100">
                 <CardHeader>
                   <CardTitle>Route Optimization Impact</CardTitle>
                 </CardHeader>
@@ -517,70 +437,6 @@ export function AdminDashboard() {
                       <span className="text-sm">Coverage Improvement</span>
                       <span className="font-medium text-green-600">+8%</span>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="settings" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>System Configuration</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start bg-transparent"
-                  >
-                    <Settings className="h-4 w-4 mr-2" />
-                    Route Optimization Settings
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start bg-transparent"
-                  >
-                    <Users className="h-4 w-4 mr-2" />
-                    Operator Management
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start bg-transparent"
-                  >
-                    <Bell className="h-4 w-4 mr-2" />
-                    Notification Settings
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start bg-transparent"
-                  >
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Collection Points
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>System Information</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-sm">Version</span>
-                    <span className="text-sm font-medium">v2.1.0</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">Last Update</span>
-                    <span className="text-sm font-medium">2 days ago</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">Active Users</span>
-                    <span className="text-sm font-medium">18</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">Uptime</span>
-                    <span className="text-sm font-medium">99.8%</span>
                   </div>
                 </CardContent>
               </Card>
