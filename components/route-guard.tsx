@@ -1,8 +1,8 @@
 "use client";
-import type React from "react";
-import { useAuth } from "@/app/context/auth-context";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import type React from "react";
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -13,41 +13,48 @@ interface RouteGuardProps {
 export function RouteGuard({
   children,
   requiredRole,
-  redirectTo = "/",
+  redirectTo = "/login",
 }: RouteGuardProps) {
-  const { user, isLoading } = useAuth();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (!user) {
-        console.error("no user");
-        router.push(redirectTo);
-        return;
-      }
+    if (status === "loading") return; // Still loading
 
-      if (requiredRole && user.role === requiredRole) {
-        // Redirect to appropriate dashboard based on user role
-        const dashboardPath =
-          user.role === "admin" ? "/admin/dashboard" : "/operator/dashboard";
-        router.push(dashboardPath);
-        return;
-      }
+    // Not authenticated
+    if (!session) {
+      router.push(redirectTo);
+      return;
     }
-  }, [user, isLoading, requiredRole, router, redirectTo]);
 
-  if (isLoading) {
+    // Check role requirement
+    if (requiredRole && session.user.role !== requiredRole) {
+      // Redirect based on user role
+      if (session.user.role === "admin") {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/operator/dashboard");
+      }
+      return;
+    }
+  }, [session, status, requiredRole, redirectTo, router]);
+
+  // Show loading while checking session
+  if (status === "loading") {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-2 text-muted-foreground">Loading...</p>
-        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
-  if (!user || (requiredRole && user.role !== requiredRole)) {
+  // Not authenticated
+  if (!session) {
+    return null;
+  }
+
+  // Role mismatch
+  if (requiredRole && session.user.role !== requiredRole) {
     return null;
   }
 

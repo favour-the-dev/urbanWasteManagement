@@ -1,9 +1,4 @@
-import { AdminDashboard } from "@/components/admin-dashboard";
-import { RouteGuard } from "@/components/route-guard";
+import { AdminDashboard } from "@/components/admin/admin-dashboard";
 export default function AdminDashboardPage() {
-  return (
-    <RouteGuard requiredRole="admin">
-      <AdminDashboard />
-    </RouteGuard>
-  );
+  return <AdminDashboard />;
 }

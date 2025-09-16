@@ -1,9 +1,4 @@
-import { AssignmentManagement } from "@/components/assignment-management";
-import { RouteGuard } from "@/components/route-guard";
+import { AssignmentManagement } from "@/components/admin/assignment-management";
 export default function AdminAssignmentsPage() {
-  return (
-    <RouteGuard requiredRole="admin">
-      <AssignmentManagement />
-    </RouteGuard>
-  );
+  return <AssignmentManagement />;
 }

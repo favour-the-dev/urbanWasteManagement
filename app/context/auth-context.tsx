@@ -1,18 +1,18 @@
 "use client";
 import type React from "react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export interface User {
+  id: string;
   email: string;
-  password: string;
   role: "admin" | "operator";
   name: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (user: User) => void;
   logout: () => void;
   isLoading: boolean;
 }
@@ -20,32 +20,27 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    // Check for stored user data on mount
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
-  }, []);
+  const user: User | null = session?.user
+    ? {
+        id: session.user.id,
+        email: session.user.email || "",
+        name: session.user.name || "",
+        role: session.user.role as "admin" | "operator",
+      }
+    : null;
 
-  const login = (userData: User) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  const logout = async () => {
+    await signOut({ redirect: false });
     router.push("/");
   };
 
+  const isLoading = status === "loading";
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

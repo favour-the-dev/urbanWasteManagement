@@ -1,9 +1,5 @@
-import { RouteManagement } from "@/components/route-management";
-import { RouteGuard } from "@/components/route-guard";
+import { RouteManagement } from "@/components/admin/route-management";
+
 export default function AdminRoutesPage() {
-  return (
-    <RouteGuard requiredRole="admin">
-      <RouteManagement />
-    </RouteGuard>
-  );
+  return <RouteManagement />;
 }

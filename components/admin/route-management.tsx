@@ -265,7 +265,7 @@ export function RouteManagement() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="border-b border-b-gray-200 bg-card">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="sm" onClick={handleBack}>
@@ -400,7 +400,7 @@ export function RouteManagement() {
           <TabsContent value="routes" className="space-y-6">
             <div className="grid gap-6">
               {routes.map((route) => (
-                <Card key={route.id} className="relative">
+                <Card key={route.id} className="relative border-transparent">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -504,7 +504,7 @@ export function RouteManagement() {
           </TabsContent>
 
           <TabsContent value="schedule" className="space-y-6">
-            <Card>
+            <Card className="border-transparent">
               <CardHeader>
                 <CardTitle>Weekly Schedule</CardTitle>
               </CardHeader>
@@ -558,7 +558,7 @@ export function RouteManagement() {
           <TabsContent value="operators" className="space-y-6">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {operators.map((operator) => (
-                <Card key={operator.id}>
+                <Card key={operator.id} className="border-transparent">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">

@@ -2,28 +2,27 @@
 import type React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Truck, Shield } from "lucide-react";
-import { User } from "@/app/context/auth-context";
-import { useAuth } from "@/app/context/auth-context";
 
-// Mock user data - in a real app, this would come from a database
-const mockUsers: User[] = [
+// Demo credentials for quick access
+const demoCredentials = [
   {
-    email: "admin@city.gov",
+    email: "admin@urbanwaste.com",
     password: "admin123",
     role: "admin",
-    name: "Sarah Johnson",
+    name: "System Administrator",
   },
   {
-    email: "operator@city.gov",
+    email: "operator@urbanwaste.com",
     password: "operator123",
     role: "operator",
-    name: "Mike Rodriguez",
+    name: "Test Operator",
   },
 ];
 
@@ -33,18 +32,30 @@ export function LoginForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAuth();
 
-  const handleDemoSelect = (role: "admin" | "operator") => {
-    const user = mockUsers.find((u) => u.role === role);
-    if (user) {
-      login(user);
-      // Redirect based on role
-      if (user.role === "admin") {
-        router.push("/admin/dashboard");
+  const handleDemoSelect = async (role: "admin" | "operator") => {
+    const credentials = demoCredentials.find((cred) => cred.role === role);
+    if (credentials) {
+      setIsLoading(true);
+      setError("");
+
+      const result = await signIn("credentials", {
+        email: credentials.email,
+        password: credentials.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Demo login failed. Please seed the database first.");
       } else {
-        router.push("/operator/dashboard");
+        // Redirect based on role
+        if (credentials.role === "admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/operator/dashboard");
+        }
       }
+      setIsLoading(false);
     }
   };
 
@@ -53,25 +64,17 @@ export function LoginForm() {
     setIsLoading(true);
     setError("");
 
-    // Simulate API call delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
 
-    // Mock authentication
-    const user = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      login(user);
-
-      // Redirect based on role
-      if (user.role === "admin") {
-        router.push("/admin/dashboard");
-      } else {
-        router.push("/operator/dashboard");
-      }
-    } else {
+    if (result?.error) {
       setError("Invalid email or password");
+    } else {
+      // The user will be redirected based on their role via the auth callback
+      router.push("/admin/dashboard"); // Default redirect, will be corrected by role
     }
 
     setIsLoading(false);
@@ -125,21 +128,23 @@ export function LoginForm() {
           <div className="grid gap-2">
             <div
               onClick={() => handleDemoSelect("admin")}
-              className="flex items-center gap-2 p-2 bg-muted rounded-md text-sm cursor-pointer"
+              className="flex items-center gap-2 p-2 bg-muted rounded-md text-sm cursor-pointer hover:bg-muted/80 transition-colors"
             >
               <Shield className="h-4 w-4 text-primary" />
               <div>
-                <div className="font-medium">Admin: admin@city.gov</div>
+                <div className="font-medium">Admin: admin@urbanwaste.com</div>
                 <div className="text-muted-foreground">Password: admin123</div>
               </div>
             </div>
             <div
               onClick={() => handleDemoSelect("operator")}
-              className="flex items-center gap-2 p-2 bg-muted rounded-md text-sm cursor-pointer"
+              className="flex items-center gap-2 p-2 bg-muted rounded-md text-sm cursor-pointer hover:bg-muted/80 transition-colors"
             >
               <Truck className="h-4 w-4 text-secondary" />
               <div>
-                <div className="font-medium">Operator: operator@city.gov</div>
+                <div className="font-medium">
+                  Operator: operator@urbanwaste.com
+                </div>
                 <div className="text-muted-foreground">
                   Password: operator123
                 </div>

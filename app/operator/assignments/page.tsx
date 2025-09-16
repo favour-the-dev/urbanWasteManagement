@@ -1,10 +1,5 @@
-import { OperatorAssignments } from "@/components/operator-assignments";
-import { RouteGuard } from "@/components/route-guard";
+import { OperatorAssignments } from "@/components/operator/operator-assignments";
 
 export default function OperatorAssignmentsPage() {
-  return (
-    <RouteGuard requiredRole="operator">
-      <OperatorAssignments />
-    </RouteGuard>
-  );
+  return <OperatorAssignments />;
 }

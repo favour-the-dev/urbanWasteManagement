@@ -278,14 +278,14 @@ export function AdminDashboard() {
                     <Button
                       onClick={handleNavigateToAssignments}
                       variant="outline"
-                      className="w-full justify-start bg-transparent"
+                      className="w-full justify-start bg-transparent border-gray-300"
                     >
                       <UserCheck className="h-4 w-4 mr-2" />
                       Manage Assignments
                     </Button>
                     <Button
                       variant="outline"
-                      className="w-full justify-start bg-transparent"
+                      className="w-full justify-start bg-transparent border-gray-300"
                     >
                       <BarChart3 className="h-4 w-4 mr-2" />
                       Generate Report
@@ -332,7 +332,7 @@ export function AdminDashboard() {
                     ].map((route) => (
                       <div
                         key={route.route}
-                        className="flex items-center justify-between p-3 border rounded-lg"
+                        className="flex items-center justify-between p-3 border border-gray-300 rounded-lg"
                       >
                         <div>
                           <div className="font-medium">{route.route}</div>

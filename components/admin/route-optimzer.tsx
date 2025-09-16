@@ -65,7 +65,7 @@ export function RouteOptimizerComponent({
   return (
     <div className="space-y-6">
       {/* Optimization Control */}
-      <Card>
+      <Card className="border-transparent">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Zap className="h-5 w-5" />
@@ -112,7 +112,7 @@ export function RouteOptimizerComponent({
 
       {/* Optimization Results */}
       {optimizationResult && (
-        <Card>
+        <Card className="border-transparent">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
